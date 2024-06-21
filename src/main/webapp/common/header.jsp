@@ -12,9 +12,15 @@
     </div>
 
     <div class="header-icons">
-        <a href="<c:url value='/register'/>" class="join-icon">JOIN</a>
-        <a href="<c:url value='/login'/>" class="login-icon">LOGIN</a>
-        <a href="#" class="my-icon">MY</a>
+    	<c:if test="${empty sessionScope.member}">
+        	<a href="<c:url value='/member'/>" class="join-icon">JOIN</a>
+        	<a href="<c:url value='/login'/>" class="login-icon">LOGIN</a>
+        </c:if>
+        <c:if test="${not empty sessionScope.member}">
+        	<strong><c:out value="${sessionScope.member.name}"/> </strong>
+        	<a href="<c:url value='/logout'/>">LOGOUT</a>
+        	<a href="#" class="my-icon">MY</a>
+        </c:if>
         <a href="#" class="cart-icon">CART</a>
     </div>
 </header>

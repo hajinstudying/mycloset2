@@ -38,30 +38,36 @@ public class LoginServlet extends HttpServlet {
 	/**
 	 * 로그인폼에서 submit한 경우의 로그인 처리
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("loginServlet의 doPost()호출됨");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// 디버깅 문자열
+		System.out.println("login 서블릿의 doPost()가 실행되었습니다.");
+
 		// 파라미터 전달받기
 		request.setCharacterEncoding("utf-8");
 		String memberId = request.getParameter("memberId");
-		String password = request.getParameter("password");
+		String pwd = request.getParameter("password");
+		
 		// DAO 영역의 메소드 호출
 		LoginDAO loginDAO = new LoginDAO();
-		MemberVO memberVO = loginDAO.login(memberId, password);
+		MemberVO member = loginDAO.login(memberId, pwd);
 
-		if (memberVO != null) {
-			// 세션에 로그인정보 저장
+		if (member != null) {
+			// 세션에 사용자 저장
 			HttpSession ses = request.getSession();
-			ses.setAttribute("member", memberVO);
-
+			ses.setAttribute("member", member);
+			// 세션 타임아웃 설정 (30분)
+            ses.setMaxInactiveInterval(30 * 60);
+            
 			// 로그인 성공시 index.jsp로 이동
 			String contextPath = request.getContextPath();
 			response.sendRedirect(contextPath + "/index.jsp");
 		} else {
-			// 로그인 실패 시 에러 메세지 세팅, loginForm.jsp로 이동
+			// 로그인 실패 시 에러 메세지 세팅
 			request.setAttribute("error", "아이디와 비밀번호를 확인하세요.");
 			RequestDispatcher rd = request.getRequestDispatcher("/loginForm.jsp");
 			rd.forward(request, response);
 		}
 	}
-
 }

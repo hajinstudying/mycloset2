@@ -23,8 +23,8 @@ public class LoginDAO {
 	private Connection conn = null; 
 	private PreparedStatement pstmt = null; 
 	private ResultSet rs = null;
-	
-	// 커넥션 풀과 연결
+
+	/* 생성자 */
 	public LoginDAO() {
 		try {
 			Context ctx = new InitialContext(); 
@@ -34,21 +34,10 @@ public class LoginDAO {
 		}
 	}
 	
-	// 커넥션 객체 반환 메소드
-	private void closeResource() {
-		try {
-			if (rs != null) rs.close();
-			if (pstmt != null) pstmt.close();
-			if (conn != null) conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	// 로그인 메소드
+	/* 로그인 처리 메소드 */
 	public MemberVO login(String memberId, String password) {
 		System.out.println("LoginDAO의 login() 메소드 호출됨");
-		MemberVO memberVO = null;
+		MemberVO member = null;
 		
 		try {
 			conn = dataSource.getConnection();
@@ -61,10 +50,10 @@ public class LoginDAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) { // 로그인 성공 시
 				// setter메소드로 객체에 값 설정
-				memberVO = new MemberVO(); 
-				memberVO.setMemberId(rs.getString("member_id")); 
-				memberVO.setName(rs.getString("name"));
-				memberVO.setEmail(rs.getString("email"));
+				member = new MemberVO(); 
+				member.setMemberId(rs.getString("member_id")); 
+				member.setName(rs.getString("name"));
+				member.setEmail(rs.getString("email"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,6 +62,17 @@ public class LoginDAO {
 			closeResource();
 		}
 		// 조회한 객체 반환
-		return memberVO; 
+		return member; 
+	}
+	
+	/* DB 커넥션 자원 반납 메소드 */
+	private void closeResource() {
+		try {
+			if (rs != null) rs.close();
+			if (pstmt != null) pstmt.close();
+			if (conn != null) conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

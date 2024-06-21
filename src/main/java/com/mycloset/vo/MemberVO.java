@@ -22,4 +22,17 @@ public class MemberVO implements Serializable {
 	private String name;		// 이름
 	private String email;		// 이메일 (유니크)
 
+	/* 회원가입용 생성자 */
+	 public MemberVO(String memberId, String password, String name, String email) {
+	        this.memberId = memberId;
+	        this.password = password;
+	        this.name = name;
+	        this.email = email;
+	    }
+	/* 세션 보관용 생성자 */
+    public MemberVO(String memberId, String name, String email) {
+        this.memberId = memberId;
+        this.name = name;
+        this.email = email;
+    }
 }
