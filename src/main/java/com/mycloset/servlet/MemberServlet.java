@@ -26,7 +26,6 @@ public class MemberServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 디버깅 문자열
         System.out.println("member 서블릿의 doGet()이 실행되었습니다.");
 
         // 회원가입 폼으로 이동하는 dispatcher
@@ -38,7 +37,6 @@ public class MemberServlet extends HttpServlet {
      * 회원가입 처리
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 디버깅 문자열
         System.out.println("member 서블릿의 doPost()가 실행되었습니다.");
 
         // message body로 전달되어오는 파라미터 인코딩

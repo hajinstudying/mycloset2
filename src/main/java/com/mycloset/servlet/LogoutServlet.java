@@ -26,9 +26,6 @@ public class LogoutServlet extends HttpServlet {
 		// 세션에서 member라는 이름으로 저장된 객체 삭제
 		ses.removeAttribute("member");
 	
-		// 세션 전체를 무효화 
-		ses.invalidate();
-	
 		// 로그인 페이지로 이동
 		String contextPath = request.getContextPath();
 		response.sendRedirect(contextPath + "/login");

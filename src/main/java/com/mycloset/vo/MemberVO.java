@@ -29,7 +29,7 @@ public class MemberVO implements Serializable {
 	        this.name = name;
 	        this.email = email;
 	    }
-	/* 세션 보관용 생성자 */
+	/* 세션 보관용 비밀번호 제외 생성자 */
     public MemberVO(String memberId, String name, String email) {
         this.memberId = memberId;
         this.name = name;

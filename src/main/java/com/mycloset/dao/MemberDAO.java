@@ -3,6 +3,7 @@ package com.mycloset.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -58,6 +59,56 @@ public class MemberDAO {
 		// 메소드 결과 값 반환
 		return row;
 	}
+	
+	/* 회원정보 수정 메소드 */
+	public int updateMember(MemberVO memberVO) {
+		System.out.println("memberDAO의 insertMember() 실행됨");
+		int row = 0;
+		
+		try {
+			// db 연결
+			conn = dataSource.getConnection();
+			// 쿼리 실행
+			String sql = "UPDATE member SET password = ?, email = ? " +
+						 " WHERE member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberVO.getPassword());
+			pstmt.setString(2, memberVO.getEmail());
+			pstmt.setString(3, memberVO.getMemberId());
+
+			row = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("정보 수정 중 오류가 발생했습니다.");
+		} finally {
+			closeResource();
+		}
+		return row;
+	}
+	
+	/* 회원정보 삭제 메소드 */
+	public int deleteMember(String memberId) {
+		System.out.println("MemberDAO의 deleteMember() 실행됨");
+		int row = 0;
+		
+		try {
+			// db 연결
+			conn = dataSource.getConnection();
+			// 쿼리 실행
+			String sql = "DELETE member WHERE member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+		    row = pstmt.executeUpdate(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("회원정보 삭제 중 오류가 발생했습니다.");
+		} finally {
+			closeResource();
+		}
+		return row;
+		
+	}
+	
 	
 	/* DB 커넥션 자원 반납 메소드 */
 	private void closeResource() {

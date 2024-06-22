@@ -17,9 +17,9 @@
         	<a href="<c:url value='/login'/>" class="login-icon">LOGIN</a>
         </c:if>
         <c:if test="${not empty sessionScope.member}">
-        	<strong><c:out value="${sessionScope.member.name}"/> </strong>
+        	<strong><c:out value="${sessionScope.member.name}"/></strong>
         	<a href="<c:url value='/logout'/>">LOGOUT</a>
-        	<a href="#" class="my-icon">MY</a>
+        	<a href="<c:url value='/memberConfirm'/>" class="my-icon">MY</a>
         </c:if>
         <a href="#" class="cart-icon">CART</a>
     </div>
