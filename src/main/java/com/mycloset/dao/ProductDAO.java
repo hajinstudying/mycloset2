@@ -3,10 +3,13 @@ package com.mycloset.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import com.mycloset.vo.ProductVO;
 
 /*
  * 상품 관련 DAO (Data Access Object) 
@@ -32,7 +35,7 @@ public class ProductDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/* DB 전담 객체 생성 메소드 */
 	public static ProductDAO getInstance() {
 		if(instance == null ) {
@@ -51,5 +54,39 @@ public class ProductDAO {
 			System.out.println("closeResource() ERR : " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	/* 상품 정보 수정 메소드 */
+	
+	public int updateProduct(ProductVO productVO) {
+		//디버깅 문자열
+		System.out.println("ProductDAO의 updateProdct() 실행");
+		//반환값 일단 초기화
+		int row = 0;
+		
+		try {
+			// 커넥션 풀에서 연결 가져오기
+			conn = dataSource.getConnection();
+			// 상품정보 수정 쿼리
+			String sql = "UPDATE product SET product_name = ?, price = ?, " +
+						 " category_id = ? WHERE product_no = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productVO.getProductName());
+			pstmt.setInt(2, productVO.getPrice());
+			pstmt.setInt(3, productVO.getCategoryId());
+			pstmt.setInt(4, productVO.getProductNo());
+			
+			row = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("updateBoard() ERR : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			closeResource();
+		}
+		return row;
+		
+		
 	}
 }
