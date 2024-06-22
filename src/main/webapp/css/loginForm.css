@@ -57,6 +57,11 @@ label {
     margin: 10px;
 }
 
+#registerBtn {
+	display: block;
+    text-align: center;
+}
+
 .login,
 .register {
     padding: 10px;

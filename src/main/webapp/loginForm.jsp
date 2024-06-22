@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Example page</title>
+<title>Login</title>
 <%-- css 연결 --%>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>?v=${now}" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/loginForm.css'/>?v=${now}" />
@@ -17,6 +17,14 @@
 <jsp:include page="/common/header.jsp" />
 <%-- main --%>
 <main>
+	<%-- 회원가입 성공 메세지 출력 --%>
+	<c:if test="${not empty sessionScope.message}">
+		<script>
+			alert('${sessionScope.message}');
+		</script>
+		 <c:remove var="message" scope="session" />
+	</c:if>
+	<%-- 회원가입 폼 --%>
 	<div>
 	    <h2 id="login-title">Login</h2>
 	</div>
@@ -34,18 +42,13 @@
 	            <a href="#" id="find-id">아이디 찾기</a> <a href="#" id="find-password">비밀번호 찾기</a>
 	        </div>
 	        <div class="button-wrap">
-	            <button type="button" class="register" id="registerBtn">회원가입</button>
+	            <button type="button" class="register" id="registerBtn"
+	            	onclick="location.href='<c:url value='/member'/>';">회원가입</button>
 	            <button type="submit" class="login" id="loginBtn">로그인</button>
 	        </div>
 	    </div>
 	</form>
 </main>
-<%-- 오류 메세지 출력 --%>
-	<c:if test="${not empty error}">
-		<script style="color: red;">
-			alert(${error});
-		</script>
-	</c:if>
 <%-- footer --%>
 <jsp:include page="/common/footer.jsp" />
 </body>

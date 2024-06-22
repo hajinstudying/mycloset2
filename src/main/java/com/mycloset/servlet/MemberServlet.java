@@ -61,6 +61,7 @@ public class MemberServlet extends HttpServlet {
         // 회원가입 결과 확인
         if (row > 0) { // 회원등록 성공
             System.out.println("회원가입 성공, 로그인 페이지로 이동");
+            request.getSession().setAttribute("message", "회원가입 성공! "+name+"님 환영합니다.");
             response.sendRedirect(contextPath + "/login");
         } else { // 회원가입 중 오류 발생
             System.out.println("회원가입 실패, 회원가입 페이지로 이동");
