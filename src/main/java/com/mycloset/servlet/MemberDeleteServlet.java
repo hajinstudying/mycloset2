@@ -16,11 +16,11 @@ import com.mycloset.dao.MemberDAO;
  * 회원 탈퇴 처리
  * - doPost : 회원탈퇴 처리
  */
-@WebServlet("/deleteMember")
-public class DeleteMemberServlet extends HttpServlet {
+@WebServlet("/memberDelete")
+public class MemberDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public DeleteMemberServlet() {
+    public MemberDeleteServlet() {
         super();
     }
 
@@ -28,7 +28,7 @@ public class DeleteMemberServlet extends HttpServlet {
 	 * 회원탈퇴 처리
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("DeletememberServlet의 doPost() 메소드가 실행되었습니다.");
+		System.out.println("MemberDeleteServlet의 doPost() 메소드가 실행되었습니다.");
 		//파라미터 전달받기
 		request.setCharacterEncoding("utf-8");
 		String memberId = request.getParameter("memberId");

@@ -28,13 +28,13 @@
                     <input type="text" name="memberId" class="form-input" id="memberId"
                     	placeholder="영문자로 시작하는 영문자 또는 숫자 6~20자" required>
                 </div>
-                <p class="error" id="idError">올바른 아이디를 입력하세요.</p>
+                <p class="error" id="idError">아이디는 영문자로 시작하는 영문자 또는 숫자 6~20자로 만들어주세요.</p>
                 <div class="form-div">
                     <label for="password">비밀번호</label>
                     <input type="password" name="password" class="form-input" id="password"
                         placeholder="영문+숫자+특수문자 조합 6자리이상" required>
                 </div>
-                <p class="error" id="pwdError">올바른 비밀번호를 입력하세요.</p>
+                <p class="error" id="pwdError">비밀번호는 영문, 숫자, 특수문자로 6자리 이상으로 만들어주세요.</p>
                 <div class="form-div">
                     <label for="password2">비밀번호 확인</label>
                     <input type="password" name="password2" class="form-input" id="password2" required>
@@ -49,7 +49,7 @@
                     <label for="email">이메일</label>
                     <input type="text" name="email" class="form-input" id="email">
                 </div>
-                <p class="error" id="emailError">올바른 이메일을 입력하세요.</p>
+                <p class="error" id="emailError">올바른 이메일 형식을 입력하세요.</p>
             </fieldset>
             <div class="button-wrap">
                 <button type="button" id="cancleBtn">취소</button>

@@ -15,6 +15,7 @@ import com.mycloset.vo.MemberVO;
 
 /**
  * 마이페이지 폼 제공 및 수정 처리
+ * (MypageServlet / MemberUpdateServlet)
  * - doGet : 마이페이지 jsp 화면 제공
  * - doPost : 회원 정보 수정 처리
  */

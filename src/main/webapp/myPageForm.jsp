@@ -16,12 +16,12 @@
 <%-- header (c:url 사용 금지, 경로를 직접 지정해야함)--%>
 <jsp:include page="/common/header.jsp" />
 <%-- main --%>
-<main>
-        <h2 id="register-title">My Page</h2>
+	<main>
+        <h2 id="mypage-title">My Page</h2>
 
         <div class="divider"></div>
 
-        <form action="<c:url value='/mypage'/>" method="post" id="regForm">
+        <form action="<c:url value='/mypage'/>" method="post" id="updateForm">
             <fieldset>
                 <div class="form-div">
                     <label for="memberId">ID</label>
@@ -29,11 +29,11 @@
                     	value="<c:out value='${member.memberId}'/>" readonly>
                 </div>
                 <div class="form-div">
-                    <label for="password">비밀번호</label>
+                    <label for="password">비밀번호 변경</label>
                     <input type="password" name="password" class="form-input" id="password"
                     	placeholder="(영문+숫자+특수문자 조합 6자리이상)" required>
                 </div>
-                <p class="error" id="pwdError">올바른 비밀번호를 입력하세요.</p>
+                <p class="error" id="pwdError">비밀번호는 영문, 숫자, 특수문자로 6자리 이상으로 만들어주세요.</p>
                 <div class="form-div">
                     <label for="password2">비밀번호 확인</label>
                     <input type="password" name="password2" class="form-input" id="password2" required>
@@ -53,16 +53,17 @@
             </fieldset>
             </form>
             <div class="button-wrap">
-            	<form action="<c:url value='/deleteMember'/>" method="post">
+            	<form action="<c:url value='/memberDelete'/>" method="post">
 					<input type="hidden" name="memberId" value="${member.memberId}">
 					<input type="submit" value="회원탈퇴" id="deleteBtn"
 						onclick="return confirm('${member.memberId}님 정말 탈퇴하시겠습니까?');">
 				</form>
-                <button type="submit" id="submitBtn"
-                	onclick="document.querySelector('#regForm').submit();">수정</button>
+                <button type="button" id="submitBtn">수정</button>
             </div>
-        
+	</main>
 <%-- footer --%>
 <jsp:include page="/common/footer.jsp" />
+<script type="text/javascript" src="<c:url value='/script/myPage.js'/>"></script>
+
 </body>
 </html>
