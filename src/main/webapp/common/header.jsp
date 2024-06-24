@@ -30,12 +30,9 @@
 
 <nav>
     <ul class="main-nav">
-        <li><a href="<c:url value='/productList'/>">NEW</a></li>
-        <li><a href="#">BEST</a></li>
-        <li><a href="#">WOMEN</a></li>
-        <li><a href="#">MEN</a></li>
-        <li><a href="#">EXCLUSIVE</a></li>
-        <li><a href="#">SALE</a></li>
-        <li><a href="#">기획전</a></li>
+        <li><a href="<c:url value='/productList'/>">TOP</a></li>
+        <li><a href="#">BOTTOMS</a></li>
+        <li><a href="#">DRESSES</a></li>
+        <li><a href="#">ACCESSORIES</a></li>
     </ul>
 </nav>
