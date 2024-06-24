@@ -121,3 +121,17 @@ input[type="number"]{
 #orderDetail {
     margin : 0 0 20px 0;
 }
+
+/* admin 계정 활성화 링크 */
+.adminBtn {
+	
+}
+.prodUpdateBtn, .prodDeleteBtn {
+	text-decoration: none;
+	color: black;
+	margin-right : 10px;
+}
+.prodUpdateBtn:hover, .prodDeleteBtn:hover {
+	text-decoration: none;
+	color: blue;	
+}

@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Example page</title>
+<title>productDetail</title>
 <%-- css 연결 --%>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>?v=${now}" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/productDetail.css'/>?v=${now}" />
@@ -18,7 +18,14 @@
 <jsp:include page="/common/header.jsp" />
 <%-- main --%>
 <main>
-        <!-- 여기에 상품 페이지 -->
+		<%-- admin 계정 활성화 링크 --%>
+		<div class="adminBtn">
+		    <c:if test="${sessionScope.member.memberId eq 'admin'}">
+		        <a href="<c:url value='/productUpdate'/>?productNo=${productVO.productNo}" class="prodUpdateBtn">상품수정</a>
+		        <a href="<c:url value='/productDelete'/>?productNo=${productVO.productNo}" class="prodDeleteBtn">상품삭제</a>            
+		    </c:if>
+		</div>
+        <%-- 상품 페이지 --%>
         <div class="product-container">
             <div class="img-container">
                 <img src="<c:url value='/img/${productVO.fileName}'/>" alt="productImg1" class="product-img">
