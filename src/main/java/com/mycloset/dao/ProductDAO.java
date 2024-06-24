@@ -30,12 +30,16 @@ public class ProductDAO {
 	
 	/* 생성자 */
 	private ProductDAO() {
-		try {
-			Context ctx = new InitialContext(); 
-			dataSource = (DataSource)ctx.lookup("java:comp/env/jdbc/oracle");
-		} catch (Exception e){
-			e.printStackTrace();
-		}
+	    try {
+	        Context ctx = new InitialContext();
+	        dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
+	        if (dataSource == null) {
+	            throw new Exception("DataSource is null");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("ProductDAO: DataSource initialization failed.");
+	    }
 	}
 
 	/* DB 전담 객체 생성 메소드 */
@@ -114,6 +118,11 @@ public class ProductDAO {
 	      end = start + productVO.getListcount() -1;
 	      
 	      try {
+	    	  
+	    	  if (dataSource == null) {
+	              throw new SQLException("DataSource is null");
+	          }
+	    	  
 	    	  StringBuffer sql = new StringBuffer(); // String 유사한 문자열 객체
 	    	  sql.append("SELECT a.product_No, a.product_name, a.price, a.category_id, c.category_name ");
 	    	  sql.append("FROM ( ");
@@ -206,4 +215,83 @@ public class ProductDAO {
 		}
 		return totalcount;
 	}
+	    
+	    /*
+	     * 상품 입력 메서드
+	     */
+	    public int insertProduct(ProductVO productVO) {
+	        int row = 0;
+	        try {
+	            conn = dataSource.getConnection();
+	            conn.setAutoCommit(false); // 트랜잭션 시작(오토 커밋 중지)
+
+	            // 상품 번호 가져오기
+	            String getNextVal = "SELECT seq_product_no.NEXTVAL AS nextval FROM dual";
+	            pstmt = conn.prepareStatement(getNextVal);
+	            rs = pstmt.executeQuery();
+	            int nextVal = 0;
+	            if (rs.next()) {
+	                nextVal = rs.getInt("nextval");
+	            }
+
+	            // 상품 삽입 SQL
+	            String sql = "INSERT INTO product (product_no, product_name, price, category_id, file_name) VALUES (?, ?, ?, ?, ?)";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setInt(1, nextVal);
+	            pstmt.setString(2, productVO.getProductName());
+	            pstmt.setInt(3, productVO.getPrice());
+	            pstmt.setInt(4, productVO.getCategoryId());
+	            pstmt.setString(5, productVO.getFileName());
+	            
+
+	            row = pstmt.executeUpdate();
+
+	            conn.commit(); // 트랜잭션 커밋
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            try {
+	                conn.rollback(); // 롤백
+	            } catch (SQLException e1) {
+	                e1.printStackTrace();
+	            }
+	        } finally {
+	            closeResource(); // 리소스 해제
+	        }
+	        return row;
+	    }
+	    
+	    
+	    /* 게시물 내용 조회 메소드 */
+	    public ProductVO getProduct(int productNo) {
+	    	System.out.println("ProductDAO의 getProduct() 실행");
+	    	ProductVO productVO = null;
+	    	
+	    	try {
+	    		conn = dataSource.getConnection();
+	    		
+	    		// 게시물 조회 쿼리
+	    		String sql = "";
+	    		pstmt = conn.prepareStatement(sql);
+	    		pstmt.setInt(1, productNo);
+	    		
+	    		rs = pstmt.executeQuery();
+	    		if (rs.next()) {
+	    			productVO = new ProductVO();
+	    			productVO.setProductNo(rs.getInt("product_no"));
+	    			productVO.setProductName(rs.getString("product_name"));
+	    			productVO.setPrice(rs.getInt("price"));		// 게시물 내용
+	    			productVO.setCategoryId(rs.getInt("category_id"));
+	    			productVO.setCategoryName(rs.getString("category_name"));
+	    			productVO.setFileName(rs.getString("file_name")); 		// 첨부 파일 이름 세팅
+	    		}     
+	    	} catch (SQLException e) {
+				System.out.println("getProduct() ERR : " + e.getMessage());
+				e.printStackTrace();
+			} finally {
+				closeResource();
+			}
+			// 게시물 객체 반환
+			return productVO;
+	    }
+	    
 }

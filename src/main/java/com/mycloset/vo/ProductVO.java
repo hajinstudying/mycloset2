@@ -17,6 +17,7 @@ public class ProductVO {
 	private int price;			// 가격
 	private int categoryId;		// 카테고리 id (외래키)
 	private String categoryName;
+	private String fileName;	// 이미지 필드 추가
 	
 	// 페이징 관련 속성(필드, 멤버변수)
 	private String pageNum = "1"; // 요청 페이지번호 (기본값을 1)
