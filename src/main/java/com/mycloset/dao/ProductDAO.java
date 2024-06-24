@@ -176,7 +176,7 @@ public class ProductDAO {
                 System.out.println("board " + productVO);
                 productList.add(productVO);         
          }
-         System.out.println("productListsize" + productList.size());
+         System.out.println("searchProductList" + productList.size());
       }catch (SQLException e) {
          System.out.println("getproductList ERR : " + e.getMessage());
          e.printStackTrace();   // 콘솔에 오류
