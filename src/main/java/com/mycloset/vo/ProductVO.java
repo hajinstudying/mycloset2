@@ -22,4 +22,8 @@ public class ProductVO {
 	private String pageNum = "1"; // 요청 페이지번호 (기본값을 1)
 	private Integer listcount = 12; // 한 페이지에 보여줄 게시물 갯수
 	private Integer pagePerBlock = 10; // // 한 화면에 보여질 페이지 번호 갯수(페이지 블럭)
+	public void setFormattedPrice(String formattedPrice) {
+		// TODO Auto-generated method stub
+		
+	}
 }

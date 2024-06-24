@@ -11,78 +11,7 @@
 <%-- css 연결 --%>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/css/style.css'/>?v=${now}" />
-<%-- <link rel="stylesheet" type="text/css" href="<c:url value='/css/productList.css'/>?v=${now}" /> --%>
-
-<style>
-main {
-    margin: 0 auto;
-    width: 90%;
-    max-width: 1200px;
-    margin-bottom: 100px;
-}
-
-.product-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.product-item {
-    flex-basis: calc(25% - 10px); /* 한 줄에 4개씩 */
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.product-item img {
-    display: block;
-    margin: 0 auto;
-    width: 100%;
-    height: auto;
-    margin-top: 20px;
-}
-.product-category,
-.product-name,
-.product-price {
-	text-align: left;
-    margin: 10px;
-    font-family: sans-serif;
-}
-.product-category{
-    font-size: 16px;
-}
-
-.product-name a {
-    color: gray; /* 회색 */
-    text-decoration: none;
-}
-
-.product-price {
-    font-size: 16px;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.pagination a {
-  color: #333;
-  padding: 4px 8px;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.pagination a.active {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.pagination a:hover:not(.active) {
-  background-color: #ddd;
-}
-
-</style>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/productList.css'/>?v=${now}" />
 </head>
 <body>
 	<%-- header (c:url 사용 금지, 경로를 직접 지정해야함) --%>
