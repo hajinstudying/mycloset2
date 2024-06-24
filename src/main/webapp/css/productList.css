@@ -5,16 +5,18 @@ main {
     margin-bottom: 100px;
 }
 
-.product-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
 .product-item {
-    flex-basis: calc(25% - 10px); /* 한 줄에 4개씩 */
-    text-align: center;
-    margin-bottom: 20px;
+    position: relative;
+    /* 상대적 위치 설정 */
+    display: inline-block;
+    /* 상품들을 옆으로 나열 */
+    text-align: left;
+    width: 18%;
+    /* 또는 원하는 폭 */
+    height: 300px;
+    /* 또는 원하는 높이 */
+    margin: 5px;
+    /* 상품 간격 조절 */
 }
 
 .product-item img {
