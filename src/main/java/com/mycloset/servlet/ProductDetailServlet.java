@@ -30,8 +30,8 @@ public class ProductDetailServlet extends HttpServlet {
 		ProductVO productVO = productDAO.getProduct(productNo);
 		
 		request.setAttribute("productVO", productVO);
-		RequestDispatcher rd = request.getRequestDispatcher("productDetail.jsp");
-		
+		RequestDispatcher rd = request.getRequestDispatcher("/productDetail.jsp");
+		rd.forward(request, response);
 		
 		
 	}

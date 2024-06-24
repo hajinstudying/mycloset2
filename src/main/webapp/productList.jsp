@@ -33,7 +33,7 @@ header랑 footer만 분리해뒀고 그대로에요.
 				<c:forEach var="product" items="${productList }">
 					<div class="product-item">
 						<%-- <img src="<c:url value='/images/${product.imageUrl}'/>" alt="${product.productName}" class="product-image"> --%>
-						<img src="./img/list1.jpeg" alt="list1">
+						<img src="<c:url value='/img/${product.fileName}'/>" alt="${product.fileName}">
 						<div class="product-category"><c:out value="${product.categoryName }" /></div>
 						<div class="product-name">
 							<a href="<c:url value='/productDetail'/>?productNo=${product.productNo}">${product.productName}</a>

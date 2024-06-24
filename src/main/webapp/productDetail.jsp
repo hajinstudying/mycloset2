@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="now" value="<%= new java.util.Date()%>"/>
 
 <!DOCTYPE html>
@@ -10,6 +11,7 @@
 <title>Example page</title>
 <%-- css 연결 --%>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>?v=${now}" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/productDetail.css'/>?v=${now}" />
 </head>
 <body>
 <%-- header (c:url 사용 금지, 경로를 직접 지정해야함)--%>
@@ -19,10 +21,10 @@
         <!-- 여기에 상품 페이지 -->
         <div class="product-container">
             <div class="img-container">
-                <img src="./img/list1.jpeg" alt="productImg1" class="product-img">
+                <img src="<c:url value='/img/${productVO.fileName}'/>" alt="productImg1" class="product-img">
             </div>
             <section class="product-detail">
-                <h2 class="product-name">Basset Hound T-shirt</h2>
+                <h2 class="product-name">${productVO.productName}</h2>
                 <p>[06/13 예약배송]</p>
                 <div class="review">
                     <span id="review-star">&#10030;&#10030;&#10030;&#10030;&#10030;</span>
@@ -30,8 +32,9 @@
                     <a href="#" id="review-link">2,245개 리뷰 ></a>
                     <a href="#" id="share-icon"><i class="fa-solid fa-share-nodes"></i></a>
                 </div>
-                <p>가격 : 45000원 </p>
-                <p>신규회원 가격 : 36,000원 <span id="newMember">신규가입시 20% 할인 쿠폰 제공</span></p>
+                <%-- fmt type을 currency로 하면 앞에 \기호가 붙는데 별로여서 number 타입 패턴으로 출력--%>
+                <p>가격 : <fmt:formatNumber value="${productVO.price}" type="number" pattern="#,###"/>원 </p>
+                <p>신규회원 가격 : <fmt:formatNumber value="${productVO.price *0.8}" type="number" pattern="#,###"/>원 <span id="newMember">신규가입시 20% 할인 쿠폰 제공</span></p>
                 <div class="divider"></div>
                 <span class="inputLbl">색상 선택 :</span>
                 <select name="color" id="colorBox">
