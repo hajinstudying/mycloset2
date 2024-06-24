@@ -15,43 +15,45 @@
 <jsp:include page="/common/header.jsp" />
 <%-- main --%>
 <main>
-        <div class="slider">
-            <div class="slides">
-                <div class="pic">
-                    <a href="./productlist.html">
-                        <img src="./img/main1.jpg" alt="main1">
-                        <div class="text">여름맞이<br>BIG SALE</div>
-                    </a>
-                </div>
-                <div class="pic">
-                    <a href="./productlist.html">
-                        <img src="./img/main2.jpg" alt="main2">
-                        <div class="text">반팔티 모음<br>SALE</div>
-                    </a>
-                </div>
-                <div class="pic">
-                    <a href="./productlist.html">
-                        <img src="./img/main3.jpg" alt="main3">
-                        <div class="text">여름을 맞이한<br>MYCLOSET</div>
-                    </a>
-                </div>
-                <div class="pic">
-                    <a href="./productlist.html">
-                        <img src="./img/main4.jpg" alt="main4">
-                        <div class="text">SummerWear<br>Jacket</div>
-                    </a>
-                </div>
-                <div class="pic">
-                    <a href="./productlist.html">
-                        <img src="./img/main5.jpg" alt="main5">
-                        <div class="text">SummerWear<br>OPS</div>
-                    </a>
-                </div>
-            </div>
+     <div class="grid-container">
+    <div class="slide-container">
+        <div class="slide">
+            <a href="<c:url value='productList'/>">
+                <img src="./img/main1.jpg" alt="main1">
+                <div class="text">여름맞이<br>BIG SALE</div>
+            </a>
+        </div>
+        <div class="slide">
+            <a href="<c:url value='productList'/>">
+                <img src="./img/main2.jpg" alt="main2">
+                <div class="text">반팔티 모음<br>SALE</div>
+            </a>
+        </div>
+        <div class="slide">
+            <a href="<c:url value='productList'/>">
+                <img src="./img/main3.jpg" alt="main3">
+                <div class="text">여름을 맞이한<br>MYCLOSET</div>
+            </a>
+    	</div>
+    	 <div class="slide">
+            <a href="<c:url value='productList'/>">
+                <img src="./img/main4.jpg" alt="main3">
+                <div class="text">SummerWear<br>Jacket</div>
+            </a>
+    	</div>
+    	<div class="slide">
+            <a href="<c:url value='productList'/>">
+                <img src="./img/main5.jpg" alt="main3">
+                <div class="text">SummerWear<br>OPS</div>
+            </a>
+    	</div>
+</div>
+            <div>
             <button class="prev" onclick="prevSlide()">&#10094;</button>
-            <button class="next" onclick="nextSlide()">&#10095;</button>
+    		<button class="next" onclick="nextSlide()">&#10095;</button>
         </div>
     </main>
+    
     <div class="container">
         <div class="news">
             <h2><a href="notice.html" id="news-link">NEWS</a></h2>
@@ -83,64 +85,6 @@
 
     <%-- footer --%>
 	<jsp:include page="/common/footer.jsp" />
-    <script>
-        let currentSlide = 1;
-        let isAnimating = false;
-    
-        document.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelector('.slides');
-            const slideElements = Array.from(slides.children);
-            const totalSlides = slideElements.length;
-    
-            // 첫 번째와 마지막 슬라이드를 복제하여 무한 루프 효과를 만듭니다.
-            const firstSlide = slideElements[0].cloneNode(true);
-            const lastSlide = slideElements[totalSlides - 1].cloneNode(true);
-    
-            slides.appendChild(firstSlide);
-            slides.insertBefore(lastSlide, slideElements[0]);
-    
-            // 슬라이드를 이동시키는 함수
-            function showSlide(index) {
-                if (isAnimating) return;
-                isAnimating = true;
-    
-                const totalSlidesWithClones = slides.children.length;
-                slides.style.transition = 'transform 0.5s ease-in-out';
-                slides.style.transform = `translateX(-${index * 100}%)`;
-    
-                currentSlide = index;
-    
-                // 애니메이션 끝난 후에 무한 루프 효과를 위한 슬라이드 위치 조정
-                slides.addEventListener('transitionend', () => {
-                    isAnimating = false;
-                    if (currentSlide === 0) {
-                        slides.style.transition = 'none';
-                        currentSlide = totalSlides - 2;
-                        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-                    } else if (currentSlide === totalSlides - 1) {
-                        slides.style.transition = 'none';
-                        currentSlide = 1;
-                        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-                    }
-                }, { once: true });
-            }
-    
-            function nextSlide() {
-                showSlide(currentSlide + 1);
-            }
-    
-            function prevSlide() {
-                showSlide(currentSlide - 1);
-            }
-    
-            // 첫 번째 슬라이드로 자연스럽게 이동
-            setTimeout(() => {
-                showSlide(1);
-            }, 0);
-    
-            document.querySelector('.next').addEventListener('click', nextSlide);
-            document.querySelector('.prev').addEventListener('click', prevSlide);
-        });
-    </script>
+<script type="text/javascript" src="<c:url value='/script/index.js'/>"></script>
     </body>
 </html>

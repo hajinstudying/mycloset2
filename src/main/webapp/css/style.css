@@ -82,40 +82,52 @@ main {
     padding: 10px;
 }
 
-.slider {
-    position: relative;
-    width: 70%;
-    margin: 0 auto;
-}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    background-color : white;
+    }
 
-.slides {
+.slide-container {
+    position: relative;
+    height: 600px;
+    overflow: hidden;
     display: flex;
-    transition: transform 0.5s ease-in-out;
-    
+    justify-content: center;
+    align-items: center;
 }
 
-.slides > div {
-    min-width: 50%;
-    box-sizing: border-box;
-    position: relative;
-    text-align: center;
-}
-
-.slides img {
-    width: 100%;
-    height: auto;
-}
-
-.text {
-    margin-top: 60%;
+.slide {
     position: absolute;
-    top: 90px;
-    left: 20px;
-    z-index: 1;
-    color: white;
-    font-size: 30px;
+    top: 0;
+    left: 0;
     width: 100%;
-    line-height: 1.5; /* 줄 간격 설정 */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin-top: 20px;
+}
+
+.slide .text {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Arial';
+    color: white;
+    font-size: 3.0rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
 
 
@@ -123,7 +135,7 @@ main {
 .prev,
 .next {
     position: absolute;
-    top: 50%;
+    top: 55%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -86,7 +88,122 @@ public class ProductDAO {
 			closeResource();
 		}
 		return row;
-		
-		
+	}
+	/**
+    * 게시물 조회 메소드
+    */
+	public List<ProductVO> getProductList(ProductVO productVO){
+	      List<ProductVO> productList = new ArrayList<>();
+	       
+	      int start = 0; // 시작 게시물 번호
+	      int end = 0; // 끝 게시물 번호
+	      /**
+	       * [첫 게시물과 끝 게시물 구하는 공식]
+	       * 1. row_number() 사용
+	       * - 시작 게시물 번호: (사용자가 요청한 페이지 -1) * 한페이지에 보여줄 게시물 수 +1
+	       * - 끝 게시물 번호: 시작번호 + 한페이지에 보여줄 게시물 수 -1
+	       * 2.Fetch ~ Next 구문 사용
+	       *  - 건너 뛸 시작 게시물 번호: (사용자가 요청한 페이지 -1) * 한페이지에 보여줄 게시물 수 
+	       *  - 가져 올 끝 게시물 번호: 시작번호 + 한페이지에 보여줄 게시물 수 
+	       */
+	      
+	      // 건너 뛸 게시물 수
+	      start = (Integer.parseInt(productVO.getPageNum()) -1) * productVO.getListcount() +1;
+	      
+	      // 가져올 게시물 수
+	      end = start + productVO.getListcount() -1;
+	      
+	      try {
+	    	  StringBuffer sql = new StringBuffer(); // String 유사한 문자열 객체
+	    	  sql.append("SELECT a.product_No, a.product_name, a.price, a.category_id, c.category_name ");
+	    	  sql.append("FROM ( ");
+	    	  sql.append("SELECT p.*, ROW_NUMBER() OVER (ORDER BY p.product_No ASC) AS row_num ");
+	    	  sql.append("FROM product p ");
+	    	  sql.append(") a ");
+	    	  sql.append("JOIN category c ON a.category_id = c.category_id ");
+	    	  sql.append("WHERE a.row_num BETWEEN ? AND ? "); 
+	          
+	         conn = dataSource.getConnection(); // 커넥션 얻어오기
+	         pstmt = conn.prepareStatement(sql.toString());
+	         pstmt.setInt(1, start);
+	         pstmt.setInt(2, end);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         while(rs.next()) {
+	                ProductVO product = new ProductVO();
+	                product.setProductNo(rs.getInt("product_No"));
+	                product.setProductName(rs.getString("product_name"));
+	        	 	product.setPrice(rs.getInt("price"));
+	        	 	product.setCategoryId(rs.getInt("category_id"));
+	        	 	product.setCategoryName(rs.getString("category_name"));
+	        	 	System.out.println(product);
+	                productList.add(product);         
+	         }
+	      }catch (SQLException e) {
+	         System.out.println("getproductList ERR : " + e.getMessage());
+	         e.printStackTrace();   // 콘솔에 오류
+	      }finally {
+	         closeResource();
+	      }
+	      return productList;
+	   }
+	/**
+    * 검색 기능 메소드
+    */
+	  public List<ProductVO> searchProductList(String keyword){
+      List<ProductVO> productList = new ArrayList<>();
+      
+      try {
+         conn = dataSource.getConnection();
+         
+         String sql = "SELECT p.product_No, p.product_name, p.price, p.category_id, c.category_name "
+         		+ "FROM product p "
+         		+ "JOIN category c ON p.category_id = c.category_id "
+         		+ "WHERE (p.product_No LIKE ?) OR (p.product_name LIKE ?) ";
+         pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, "%" + keyword + "%");
+         pstmt.setString(2, "%" + keyword + "%");
+         rs = pstmt.executeQuery();
+         
+         while(rs.next()) {
+        	 	ProductVO productVO = new ProductVO();
+        	 	productVO.setProductNo(rs.getInt("product_No"));
+        	 	productVO.setProductName(rs.getString("product_name"));
+        	 	productVO.setPrice(rs.getInt("price"));
+        	 	productVO.setCategoryId(rs.getInt("category_id"));
+        	 	productVO.setCategoryName(rs.getString("category_name"));
+                System.out.println("board " + productVO);
+                productList.add(productVO);         
+         }
+         System.out.println("productListsize" + productList.size());
+      }catch (SQLException e) {
+         System.out.println("getproductList ERR : " + e.getMessage());
+         e.printStackTrace();   // 콘솔에 오류
+      }finally {
+         closeResource();
+      }
+      return productList;
+   }
+	  /*
+	    * 전체 게시물의 객수를 조회하는 메소드
+	    */
+
+	    public int getAllCount() {
+		int totalcount = 0;
+		StringBuffer sql= new StringBuffer();
+		sql.append("select count(*) as totalCount ");
+		sql.append(" from product ");
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				totalcount = rs.getInt("totalcount");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return totalcount;
 	}
 }

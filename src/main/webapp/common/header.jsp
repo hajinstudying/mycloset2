@@ -7,8 +7,11 @@
         <div class="logo">MYCLOSET</div>
     </a>
     <div class="search-box">
-        <input type="text">
-        <button>search</button>
+        <form action="<c:url value='/productList'/>" method="get"
+				class="search-form">
+				<input type="text" name="keyword" placeholder="검색어 입력"> 
+				<button>search</button>
+		</form>		
     </div>
 
     <div class="header-icons">

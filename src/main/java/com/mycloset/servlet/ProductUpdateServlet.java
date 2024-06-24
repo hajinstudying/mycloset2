@@ -62,7 +62,7 @@ public class ProductUpdateServlet extends HttpServlet {
 		
 		// DAO 메소드 호출해서 수정처리
 		ProductDAO productDAO = ProductDAO.getInstance(); //싱글톤 연결 객체 
-		int row = productDAO.updateProuct(productVO);
+		int row = productDAO.updateProduct(productVO);
 		
 		// 컨텍스트패스 경로
 		String contextPath = request.getContextPath();
