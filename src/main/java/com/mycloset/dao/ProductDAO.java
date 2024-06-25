@@ -74,15 +74,23 @@ public class ProductDAO {
 			// 커넥션 풀에서 연결 가져오기
 			conn = dataSource.getConnection();
 			// 상품정보 수정 쿼리
-			String sql = "UPDATE product SET product_name = ?, price = ?, " +
-						 " category_id = ?, file_name = ? WHERE product_no = ?";
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE product SET product_name = ?, price = ?, category_id = ? ");
+			if (productVO.getFileName() != null && !productVO.getFileName().isEmpty()) {
+	            sql.append(", file_name = ?" );
+	        }
+			sql.append(" WHERE product_no = ?");
 			
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, productVO.getProductName());
 			pstmt.setInt(2, productVO.getPrice());
 			pstmt.setInt(3, productVO.getCategoryId());
-			pstmt.setString(4, productVO.getFileName());
-			pstmt.setInt(5, productVO.getProductNo());
+			if (productVO.getFileName() != null && !productVO.getFileName().isEmpty()) {
+	            pstmt.setString(4, productVO.getFileName());
+				pstmt.setInt(5, productVO.getProductNo());
+	        } else {
+				pstmt.setInt(4, productVO.getProductNo());
+	        }
 			
 			row = pstmt.executeUpdate();
 			
