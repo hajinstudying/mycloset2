@@ -75,13 +75,14 @@ public class ProductDAO {
 			conn = dataSource.getConnection();
 			// 상품정보 수정 쿼리
 			String sql = "UPDATE product SET product_name = ?, price = ?, " +
-						 " category_id = ? WHERE product_no = ?";
+						 " category_id = ?, file_name = ? WHERE product_no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, productVO.getProductName());
 			pstmt.setInt(2, productVO.getPrice());
 			pstmt.setInt(3, productVO.getCategoryId());
-			pstmt.setInt(4, productVO.getProductNo());
+			pstmt.setString(4, productVO.getFileName());
+			pstmt.setInt(5, productVO.getProductNo());
 			
 			row = pstmt.executeUpdate();
 			

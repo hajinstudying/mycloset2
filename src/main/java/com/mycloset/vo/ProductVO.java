@@ -33,5 +33,12 @@ public class ProductVO {
 		this.categoryName = categoryName;
 		this.fileName = fileName;
 	}
-	
+	// 상품수정 메서드에서 쓸 생성자
+	public ProductVO(int productNo, String productName, int price, int categoryId, String fileName) {
+		this.productNo = productNo;
+		this.productName = productName;
+		this.price = price;
+		this.categoryId = categoryId;
+		this.fileName = fileName;
+	}
 }

@@ -42,7 +42,7 @@ public class MemberDAO {
 			conn = dataSource.getConnection();
 			
 			String sql = "INSERT INTO member(member_no, member_id, password, name, email) " +
-						 " VALUES(seq_mno.nextval, ?, ?, ?, ?)";
+						 " VALUES(seq_member_no.nextval, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, memberVO.getMemberId());
 			pstmt.setString(2, memberVO.getPassword());
