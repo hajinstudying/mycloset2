@@ -8,3 +8,61 @@
 	justify-content: center;
 	
 }
+form {
+        width: 100%; /* Form 화면 전체 크기로 확장 */
+        max-width: 800px; /* 최대 너비 설정 */
+        margin: 0 auto; /* 가운데 정렬 */
+        padding: 20px; /* 내부 padding 추가 */
+        box-sizing: border-box; /* padding 포함하여 전체 크기 설정 */
+    }
+
+    input[type="submit"] {
+        background-color: black; /* 저장 버튼 색상 변경 */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .container {
+        margin: 20px; /* 인풋 태그들 간격 조정 */
+    }
+
+    label {
+        display: block; /* label 위아래로 배치 */
+        margin-bottom: 10px;
+    }
+
+    input {
+        margin-bottom: 10px;
+        padding: 5px;
+        width: 100%; /* 인풋 태그들 가로 폭 조정 */
+        box-sizing: border-box; /* padding 포함한 전체 width로 설정 */
+    }
+
+    select {
+        width: 100%; /* select 태그 가로 폭 조정 */
+        padding: 5px;
+        box-sizing: border-box;
+    }
+    
+    #insert-title {
+        font-size: 2em; /* 상품 등록 제목 크기 설정 */
+        text-align: center; /* 가운데 정렬 */
+    }
+
+    input[type="reset"] {
+        background-color: black; /* 다시쓰기 버튼 색상 변경 */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .img {
+    	margin-top: 10px;
+        
+    }
+    input:focus {
+    outline: none;
+}	
