@@ -22,6 +22,7 @@
             <c:if test="${ not empty sessionScope.member }">
                 <h3 id="insert-title">상품 수정</h3>
                 <form action="<c:url value='/productUpdate'/>" method="post" enctype="multipart/form-data">
+                	<input type="hidden" name="productNo" value="<c:out value='${product.productNo}'/>">
                     <div class="name-box">
                         <label for="productName">상품명</label>
                         <input type="text" id="productName" name="productName" required>
