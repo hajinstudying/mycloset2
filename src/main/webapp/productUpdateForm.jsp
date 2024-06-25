@@ -21,14 +21,14 @@
             <c:if test="${sessionScope.member.memberId eq 'admin'}">
                 <h3 id="insert-title">상품 수정</h3>
                 <form action="<c:url value='/productUpdate'/>" method="post" enctype="multipart/form-data">
-                	<input type="hidden" name="productNo" value="<c:out value='${productVO.productNo}'/>">
+                	<input type="hidden" name="productNo" value="${productVO.productNo}">
                     <div class="name-box">
                         <label for="productName">상품명</label>
                         <input type="text" id="productName" name="productName" value="<c:out value='${productVO.productName}'/>" required>
                     </div>
                     <div class="price-box">
                         <label for="price">가격</label>
-                        <input type="text" id="price" name="price" value="<c:out value='${productVO.price}'/>" required>
+                        <input type="text" id="price" name="price" value="${productVO.price}" required>
                     </div>
                     <div class="category-box">
                         <label for="categoryId">카테고리</label>
@@ -41,7 +41,8 @@
                     </div>
                     <div>
                         <label for="fileName">이미지 첨부</label>
-                        <input type="file" id="fileName" name="fileName" value="<c:out value='${productVO.fileName}'/>">
+                        <input type="file" id="fileName" name="fileName">
+                         <p>기존 파일: <c:out value='${productVO.fileName}'/></p>
                     </div>
                     <div>
                        <input type="submit" value="수정">

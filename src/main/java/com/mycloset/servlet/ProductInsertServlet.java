@@ -47,7 +47,7 @@ public class ProductInsertServlet extends HttpServlet {
         String fileName = null;
 
         // 업로드 폴더 경로 설정 및 생성
-        String uploadPath = getServletContext().getRealPath("/") + "upload";
+        String uploadPath = getServletContext().getRealPath("/") + "img";
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
@@ -93,13 +93,10 @@ public class ProductInsertServlet extends HttpServlet {
                 }
             }
         
-            
             productVO.setProductName(productName);
             productVO.setPrice(price);
             productVO.setCategoryId(categoryId);
             productVO.setFileName(fileName);
-            
-         
             
             ProductDAO productDAO = ProductDAO.getInstance();
             int row = productDAO.insertProduct(productVO);

@@ -2,6 +2,8 @@ package com.mycloset.servlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.mycloset.dao.ProductDAO;
 import com.mycloset.vo.MemberVO;
@@ -24,6 +30,7 @@ import com.mycloset.vo.ProductVO;
 @WebServlet("/productUpdate")
 public class ProductUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = Logger.getLogger(ProductInsertServlet.class.getName());
        
     public ProductUpdateServlet() {
         super();
@@ -55,78 +62,93 @@ public class ProductUpdateServlet extends HttpServlet {
 	 * - DB에 수정된 상품정보 저장
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//디버깅
+		System.out.println("productUpdate 서블릿의 doPost() 실행");
+		
 		// 파라미터 인코딩
 		request.setCharacterEncoding("utf-8");
-		
-		// 1. 로그인 여부 먼저 확인, 미로그인시 로그인 폼으로 이동
 		String contextPath = request.getContextPath();
-		MemberVO memberVO = null;
-
-		HttpSession session = request.getSession(false); // 세션객체 얻기, 없으면 생성안함.
-		if (session != null) {
-			memberVO = (MemberVO) session.getAttribute("member");
-		}
-		if (memberVO == null) {
-			response.sendRedirect(contextPath + "/login");
-			return; // 더이상 다음 코드 실행 안함.
-		}
-		String memberId = memberVO.getMemberId(); // 세션에서 작성자 추출
-		if(!("admin".equals(memberId))) {
-			response.sendRedirect(contextPath + "/login");
-			return; // 더이상 다음 코드 실행 안함.
-		}
 		
-		//디버깅
-		System.out.println(Integer.parseInt(request.getParameter("productNo")));
-			
-		// 파라미터 전달받기
-		int productNo = Integer.parseInt(request.getParameter("productNo"));
-		String productName = request.getParameter("productName");
-		int price = Integer.parseInt(request.getParameter("price"));
-		int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-		Part filePart = request.getPart("fileName"); // 첨부파일 이름 추출
+		ProductVO productVO = new ProductVO();
+		int productNo = 0;
+		String productName = null;
+		int price = 0;
+		int categoryId = 0;
 		String fileName = null;
-
-		// 파일 업로드 처리 시작(첨부파일이 있을 경우)
-		if (filePart != null && filePart.getSize() > 0) { // 첨부파일이 존재하면
-			fileName = filePart.getSubmittedFileName(); // 파일명 추출
-			if (fileName != null && !fileName.isEmpty()) {
-				/*
-				 * getServletContext : GenericServlet 클래스의 메소드로 ServletContext 객체를 반환
-				 * ServletContext : - 웹 어플리케이션의 환경 정보를 가지고 있는 객체. - 예를들면 웹 어플리케이션의 루트 경로를 얻어낼 수
-				 * 있음. - getRealPath("/") : 웹 어플리케이션의 루트 경로를 갖고옴 - "upload" : 현재 웹 어플리케이션의 루트에서
-				 * upload 폴더의 실제 경로를 갖고옴 이클립스에서 미리 upload 폴더를 생성해놓아야함.
-				 */
-				String uploadPath = getServletContext().getRealPath("/") + "img"; // 파일 저장 경로
-				// 위에서 만든 경로로 파일 객체 생성, 없으면 생성, 있으면 생성하지 않음
-				// 생성된 파일 경로 객체는 파일을 저장할 경로를 나타냄
-				// File 객체는 경로와 파일을 핸들링 할 수 있는 객체
-				File uploadDir = new File(uploadPath);
-				// upload 폴더가 없으면 생성
-				if (!uploadDir.exists())
-					uploadDir.mkdir();
-				// File.separator : 파일 경로 구분자
-				// 파일 저장 경로에 파일명으로 파일 저장, 물리적으로 파일을 저장
-				filePart.write(uploadPath + File.separator + fileName);
-			}
-		} // end 첨부파일이 존재하면
 		
-		
-		// 파라미터 객체에 담기
-		ProductVO productVO = new ProductVO(productNo, productName, price, categoryId, fileName);
-		
-		// DAO 메소드 호출해서 수정처리
-		ProductDAO productDAO = ProductDAO.getInstance(); //싱글톤 연결 객체 
-		int row = productDAO.updateProduct(productVO);
+		// 업로드 폴더 경로 설정 및 생성
+        String uploadPath = getServletContext().getRealPath("/") + "img";
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
         
-        // row를 통해서 분기
-        if (row > 0) { // 정상 수정시 페이지이동
-			System.out.println("상품정보 수정 성공");
-			response.sendRedirect(contextPath + "/productDetail?productNo=" + productNo); 
-		} else { // 수정 실패
-			request.setAttribute("error", "게시물 수정에 실패했습니다.");
-			RequestDispatcher rd = request.getRequestDispatcher("/productUpdate?productNo=" + productNo);
-			rd.forward(request, response);
-		}		
-	}
+        // 파일 업로드 설정
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setRepository(uploadDir);
+        factory.setSizeThreshold(1024 * 1024);
+        
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        upload.setFileSizeMax(1024 * 1024 * 10); // 10 MB
+        upload.setSizeMax(1024 * 1024 * 15); // 15 MB
+
+        try {
+            List<FileItem> items = upload.parseRequest(request);
+            System.out.println("items" + items.size());
+            for (FileItem item : items) {
+                if (item.isFormField()) {
+             
+                	if (item.getFieldName().equals("productNo")) {
+                		String productNoStr = item.getString("utf-8");
+                        if (productNoStr != null && !productNoStr.isEmpty()) {
+                            productNo = Integer.parseInt(productNoStr);
+                        }
+                         
+                	} else if (item.getFieldName().equals("productName")) {
+                    	
+                        productName = item.getString("utf-8");
+                        System.out.println("productName :" + productName);
+                    } else if (item.getFieldName().equals("price")) {
+                        String priceStr = item.getString("utf-8");
+                        if (priceStr != null && !priceStr.isEmpty()) {
+                            price = Integer.parseInt(priceStr);
+                        }
+                    } else if (item.getFieldName().equals("categoryId")) {
+                        String categoryIdStr = item.getString("utf-8");
+                        if (categoryIdStr != null && !categoryIdStr.isEmpty()) {
+                            categoryId = Integer.parseInt(categoryIdStr);
+                        }
+                    }
+                } else {
+                    if (item.getFieldName().equals("fileName") && item.getSize() > 0) {
+                        fileName = new File(item.getName()).getName();
+                        File uploadFile = new File(uploadPath + File.separator + fileName);
+                        item.write(uploadFile);
+                        logger.info("Uploaded file: " + uploadFile.getAbsolutePath() + " (" + item.getSize() + " bytes)");
+                    }
+                }
+            }
+            
+            productVO.setProductNo(productNo);
+            productVO.setProductName(productName);
+            productVO.setPrice(price);
+            productVO.setCategoryId(categoryId);
+            productVO.setFileName(fileName);
+            
+
+            ProductDAO productDAO = ProductDAO.getInstance();
+            int row = productDAO.updateProduct(productVO);
+            
+            if (row > 0) {
+                response.sendRedirect(contextPath + "/productList");
+            } else {
+                request.setAttribute("error", "상품 수정에 실패했습니다.");
+                RequestDispatcher rd = request.getRequestDispatcher("/productDetail?productNo=" + productNo);
+                rd.forward(request, response);
+            }
+        } catch (Exception e) {
+            System.out.println("product 저장중 오류 발생");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "파일 업로드 중 오류가 발생했습니다.");
+        }
+    }
 }
