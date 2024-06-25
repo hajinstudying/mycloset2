@@ -110,16 +110,7 @@ public class ProductDAO {
 	       
 	      int start = 0; // 시작 게시물 번호
 	      int end = 0; // 끝 게시물 번호
-	      /**
-	       * [첫 게시물과 끝 게시물 구하는 공식]
-	       * 1. row_number() 사용
-	       * - 시작 게시물 번호: (사용자가 요청한 페이지 -1) * 한페이지에 보여줄 게시물 수 +1
-	       * - 끝 게시물 번호: 시작번호 + 한페이지에 보여줄 게시물 수 -1
-	       * 2.Fetch ~ Next 구문 사용
-	       *  - 건너 뛸 시작 게시물 번호: (사용자가 요청한 페이지 -1) * 한페이지에 보여줄 게시물 수 
-	       *  - 가져 올 끝 게시물 번호: 시작번호 + 한페이지에 보여줄 게시물 수 
-	       */
-	      
+	 
 	      // 건너 뛸 게시물 수
 	      start = (Integer.parseInt(productVO.getPageNum()) -1) * productVO.getListcount() +1;
 	      
