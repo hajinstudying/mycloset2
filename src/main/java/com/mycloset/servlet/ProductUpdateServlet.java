@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -69,6 +68,26 @@ public class ProductUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String contextPath = request.getContextPath();
 		
+		// 1. 로그인 여부 확인
+		MemberVO memberVO = null;
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			memberVO = (MemberVO) session.getAttribute("member");
+		}
+		if (memberVO == null) {
+			response.sendRedirect(contextPath + "/login");
+			return;
+		}
+		
+		//2. admin 여부 확인
+		String memberId = memberVO.getMemberId();
+		if (!"admin".equals(memberId)) {
+			response.sendRedirect(contextPath + "/login" +
+		"&message=" + java.net.URLEncoder.encode("관리자만 상품을 수정할 수 있습니다", "UTF-8"));
+			return;
+		}
+		
+		//3. 
 		ProductVO productVO = new ProductVO();
 		int productNo = 0;
 		String productName = null;

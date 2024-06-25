@@ -307,4 +307,23 @@ public class ProductDAO {
 			return productVO;
 	    }
 	    
+	    /* 상품 삭제 메서드 */
+	    public int deleteProduct(int productNo) {
+	           int row = 0;
+	           try {
+	               conn = dataSource.getConnection();
+	               String sql = "DELETE FROM product WHERE product_no = ?";
+	               pstmt = conn.prepareStatement(sql);
+	               pstmt.setInt(1, productNo);
+	               row = pstmt.executeUpdate();
+	           } catch (SQLException e) {
+	               e.printStackTrace();
+	           } finally {
+	               closeResource();
+	           }
+	           return row;
+	       }
+	       
+	       
+	    
 }
