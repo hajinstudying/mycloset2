@@ -3,11 +3,13 @@ main {
     display: flex;
     justify-content: center;
     margin:100px;
+    flex-direction: column;
 }
 
 .product-container {
     display: flex;
     padding: 100px 0 100px 0;
+    justify-content: center;
 }
 
 .img-container{
@@ -124,14 +126,20 @@ input[type="number"]{
 
 /* admin 계정 활성화 링크 */
 .adminBtn {
+	display: flex;
+	justify-content:center;
 	
 }
 .prodUpdateBtn, .prodDeleteBtn {
 	text-decoration: none;
 	color: black;
 	margin-right : 10px;
+	padding: 10px;
+	background-color: black;
+	color: white; 
 }
 .prodUpdateBtn:hover, .prodDeleteBtn:hover {
 	text-decoration: none;
-	color: blue;	
+	color: black;
+	background-color: gray;	
 }

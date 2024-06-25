@@ -31,7 +31,7 @@
                 <img src="<c:url value='/img/${productVO.fileName}'/>" alt="productImg1" class="product-img">
             </div>
             <section class="product-detail">
-                <h2 class="product-name">${productVO.productName}</h2>
+                <h2 class="product-name"><c:out value="${productVO.productName}"/></h2>
                 <p>[06/13 예약배송]</p>
                 <div class="review">
                     <span id="review-star">&#10030;&#10030;&#10030;&#10030;&#10030;</span>
