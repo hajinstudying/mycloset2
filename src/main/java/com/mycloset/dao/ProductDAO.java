@@ -168,10 +168,10 @@ public class ProductDAO {
       try {
          conn = dataSource.getConnection();
          
-         String sql = "SELECT p.product_No, p.product_name, p.price, p.category_id, c.category_name "
+         String sql = "SELECT p.product_no, p.product_name, p.price, p.category_id, c.category_name, p.file_name "
          		+ "FROM product p "
          		+ "JOIN category c ON p.category_id = c.category_id "
-         		+ "WHERE (p.product_No LIKE ?) OR (p.product_name LIKE ?) ";
+         		+ "WHERE (p.product_no LIKE ? ) OR (p.product_name LIKE ?) ";
          pstmt = conn.prepareStatement(sql);
          pstmt.setString(1, "%" + keyword + "%");
          pstmt.setString(2, "%" + keyword + "%");
@@ -184,6 +184,7 @@ public class ProductDAO {
         	 	productVO.setPrice(rs.getInt("price"));
         	 	productVO.setCategoryId(rs.getInt("category_id"));
         	 	productVO.setCategoryName(rs.getString("category_name"));
+        	 	productVO.setFileName(rs.getString("file_name"));
                 System.out.println("board " + productVO);
                 productList.add(productVO);         
          }
