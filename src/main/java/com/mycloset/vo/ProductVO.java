@@ -24,4 +24,14 @@ public class ProductVO {
 	private Integer listcount = 10; // 한 페이지에 보여줄 게시물 갯수
 	private Integer pagePerBlock = 10; // // 한 화면에 보여질 페이지 번호 갯수(페이지 블럭)
 
+	// 상품상세조회 메서드에서 쓸 생성자
+	public ProductVO(int productNo, String productName, int price, int categoryId, String categoryName, String fileName) {
+		this.productNo = productNo;
+		this.productName = productName;
+		this.price = price;
+		this.categoryId = categoryId;
+		this.categoryName = categoryName;
+		this.fileName = fileName;
+	}
+	
 }

@@ -37,7 +37,7 @@ public class ProductUpdateServlet extends HttpServlet {
 		
 		// 싱글톤 DB 연결 객체 가져옴
 		ProductDAO prouctDAO = ProductDAO.getInstance();
-		
+
 		// productUpdateForm.jsp로 이동
 		RequestDispatcher rd = request.getRequestDispatcher("/productUpdateForm.jsp");
 	}

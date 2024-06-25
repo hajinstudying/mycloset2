@@ -13,8 +13,10 @@
 				<button>search</button>
 		</form>		
     </div>
-
     <div class="header-icons">
+	    <c:if test="${sessionScope.member.memberId == 'admin'}">
+			<a href="<c:url value='/productInsert'/>" class="prodInsertBtn">상품추가</a>
+	    </c:if>
     	<c:if test="${empty sessionScope.member}">
         	<a href="<c:url value='/member'/>" class="join-icon">JOIN</a>
         	<a href="<c:url value='/login'/>" class="login-icon">LOGIN</a>

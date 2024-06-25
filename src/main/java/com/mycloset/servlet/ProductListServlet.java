@@ -45,7 +45,6 @@ public class ProductListServlet extends HttpServlet {
 	       
 	       List<ProductVO> productList = null;
 	       // 데이터베이스 전담 객체 생성
-	       //BoardDAO boardDAO = new BoardDAO();
 	       ProductDAO productDAO = ProductDAO.getInstance();
 	       
 	       // 키워드 유무에 따른 분기

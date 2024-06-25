@@ -124,7 +124,7 @@ public class ProductDAO {
 	          }
 	    	  
 	    	  StringBuffer sql = new StringBuffer(); // String 유사한 문자열 객체
-	    	  sql.append("SELECT a.product_No, a.product_name, a.price, a.category_id, c.category_name ");
+	    	  sql.append("SELECT a.product_No, a.product_name, a.price, a.category_id, c.category_name, a.file_name ");
 	    	  sql.append("FROM ( ");
 	    	  sql.append("SELECT p.*, ROW_NUMBER() OVER (ORDER BY p.product_No ASC) AS row_num ");
 	    	  sql.append("FROM product p ");
@@ -145,6 +145,7 @@ public class ProductDAO {
 	                product.setProductName(rs.getString("product_name"));
 	        	 	product.setPrice(rs.getInt("price"));
 	        	 	product.setCategoryId(rs.getInt("category_id"));
+	        	 	product.setFileName(rs.getString("file_name"));
 	        	 	product.setCategoryName(rs.getString("category_name"));
 	        	 	System.out.println(product);
 	                productList.add(product);         
@@ -261,7 +262,7 @@ public class ProductDAO {
 	    }
 	    
 	    
-	    /* 게시물 내용 조회 메소드 */
+	    /* 상품 상세 조회 메소드 */
 	    public ProductVO getProduct(int productNo) {
 	    	System.out.println("ProductDAO의 getProduct() 실행");
 	    	ProductVO productVO = null;
@@ -270,16 +271,19 @@ public class ProductDAO {
 	    		conn = dataSource.getConnection();
 	    		
 	    		// 게시물 조회 쿼리
-	    		String sql = "";
+	    		String sql = "SELECT p.product_name, p.price, p.category_id, c.category_name, p.file_name "
+	    					+ " FROM product p "
+	    					+ " JOIN category c ON p.category_id = c.category_id "
+	    					+ " WHERE p.product_no = ?";
 	    		pstmt = conn.prepareStatement(sql);
 	    		pstmt.setInt(1, productNo);
 	    		
 	    		rs = pstmt.executeQuery();
 	    		if (rs.next()) {
 	    			productVO = new ProductVO();
-	    			productVO.setProductNo(rs.getInt("product_no"));
+	    			productVO.setProductNo(productNo);
 	    			productVO.setProductName(rs.getString("product_name"));
-	    			productVO.setPrice(rs.getInt("price"));		// 게시물 내용
+	    			productVO.setPrice(rs.getInt("price"));
 	    			productVO.setCategoryId(rs.getInt("category_id"));
 	    			productVO.setCategoryName(rs.getString("category_name"));
 	    			productVO.setFileName(rs.getString("file_name")); 		// 첨부 파일 이름 세팅
