@@ -29,7 +29,7 @@
 	    <h2 id="login-title">My Page</h2>
 	    <h4>비밀 번호를 인증해주세요.</h4>
 	</div>
-	<form action="<c:url value='/memberConfirm'/>" method="post" name="loginForm">
+	<form action="<c:url value='/memberConfirm'/>" method="post" name="loginForm" id="loginForm">
 	    <div class="login-wrap">
 	        <div>
 	            <label for="memberId">ID</label>

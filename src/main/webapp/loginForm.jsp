@@ -28,7 +28,7 @@
 	<div>
 	    <h2 id="login-title">Login</h2>
 	</div>
-	<form action="<c:url value='/login'/>" method="post" name="loginForm">
+	<form action="<c:url value='/login'/>" method="post" name="loginForm" id="loginForm">
 	    <div class="login-wrap">
 	        <div>
 	            <label for="memberId">ID</label>
