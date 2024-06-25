@@ -14,9 +14,9 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/productInsertForm.css'/>?v=${now}" />
 </head>
 <body>
-   <div class="container">
         <%-- 헤더부분 include 액션 태그 사용, c:url 사용금지, 경로 직접 지정해야함. --%>
-        <%--<jsp:include page="/common/header.jsp" /> --%>
+        <jsp:include page="/common/header.jsp" />
+   <div class="container">
         <main>
             <c:if test="${sessionScope.member.memberId eq 'admin'}">
                 <h3 id="insert-title">상품 수정</h3>
@@ -58,5 +58,6 @@
             </c:if>
         </main>
     </div>
+    <jsp:include page="/common/footer.jsp" />
 </body>
 </html>

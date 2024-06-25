@@ -15,9 +15,9 @@
 <%-- <script src='<c:url value="/ckeditor/config.js" />'></script> --%>
 </head>
 <body>
+   <%-- 헤더부분 include 액션 태그 사용, c:url 사용금지, 경로 직접 지정해야함. --%>
+   <jsp:include page="/common/header.jsp" />
    <div class="container">
-        <%-- 헤더부분 include 액션 태그 사용, c:url 사용금지, 경로 직접 지정해야함. --%>
-        <%--<jsp:include page="/common/header.jsp" /> --%>
         <main>
             <c:if test="${ not empty sessionScope.member }">
                 <h3 id="insert-title">상품 등록</h3>
@@ -57,5 +57,6 @@
             </c:if>
         </main>
     </div>
+    <jsp:include page="/common/footer.jsp" />
 </body>
 </html>
